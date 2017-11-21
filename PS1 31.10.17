@@ -1,0 +1,6 @@
+PS1 31.10.17
+
+en la linea de configuracion del service. A partir de la version 10:
+tag: middleware
+anteriores a la 10: middleware_classes
+

@@ -1,0 +1,13 @@
+iniciar proyecto de django:
+	$ django-admin.py startproject <<PROJECT_NAME>>
+
+arrancar servidor:
+	$ python manage.py runserver
+
+crear una aplicacion django:
+	$ python manage.py startapp <<APP_NAME>>
+	FILE: <<PROJECT_NAME>>/settings.py:
+		añadir '<<APP_NAME>>' al final de la lista INSTALLED_APPS
+
+creating a view: (pag 22)
+mapping urls: (pag 23)

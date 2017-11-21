@@ -1,0 +1,43 @@
+PSI 21.11.17
+
+
+SEMANAS 1 Y 2
+	CARRITO
+		doble validación (stock) al añadir al carrito y al formalizar compra
+		recoger datos del cliente al formalizar compra
+
+		2 aplicaciones extra shoppingcart(gestion carrito) y placeorder(formalizacion de pedidos)
+
+	Contexto
+		Request
+
+		Session (al iniciar conexión) (poner lo minimo posible)
+			compartido para el usuario
+
+			En DJANGO
+				request.session[nombre_variable]
+
+
+	Shopping Cart.py
+		no es un modelo de django
+		contiene diccionario con referencias a productos del carrito
+			clave id del producto(prodSlug?)
+			valor: diccionario
+					numero de unidades
+					precio
+
+		metodos
+			addProduct
+			removeProduct
+			_len_ : sumatorio de todos los stock de todos los productos 
+			get_total_Price			
+
+		importante matizar cuando coger datos del carrito y cuando de la base de datos
+
+
+SEMANAS 3 Y 4
+	concepto de filtros (al pasar del request al response (si cumple ciertas cosas sigue, si no, se salta los demás))
+		(sacar de la sesion del carrito y escribirlo en el base.html)
+
+	Crear modelos orders y orderline
+		
