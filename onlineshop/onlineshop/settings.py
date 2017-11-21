@@ -102,7 +102,7 @@ else:
     import dj_database_url
     DATABASES['default']= dj_database_url.config()
 
-ALLOWED_HOSTS = [u"pacific-ocean-78885.herokuapp.com",u'127.0.0.1']
+ALLOWED_HOSTS = [u'pacific-ocean-78885.herokuapp.com',u'127.0.0.1']
 STATIC_ROOT = 'staticfiles'
 
 
