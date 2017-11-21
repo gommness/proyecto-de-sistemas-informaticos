@@ -1,0 +1,60 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+	{% if category %}
+		{{ category.catName }}
+	{% else %}
+		Products
+	{% endif %}
+{% endblock %}
+
+
+{% block header %}
+	THE BEST AND MOST AFFORDABLE PARFUMS YOU'LL EVER FIND!
+{% endblock %}
+
+
+{% block shoppingcart %}
+	Empty Cart
+{% endblock %}
+
+
+{% block content %}
+	
+	<div id="sidebar">
+		<h3>Categories</h3>
+        <ul>
+        	
+        	<li 
+        	{% if category == None %} class="selected"{% endif %}>
+        		<a href="/">All</a>
+        	</li>
+	        		        	
+			
+        	{% for cat in categories %}
+		    	<li {% if cat.catSlug == category.catSlug%} class = "selected"{% endif %}>
+		        	<a href="/{{cat.catSlug}}/">{{cat.catName}}</a>
+		        </li>
+        	{% endfor %}
+        </ul>		
+	</div>	
+
+{% endblock %}
+
+<!-- este bloque es necesario? no se usa en detail -->
+{% block main %}
+	<div id="main" class="product-list">
+		<h1>Parfums</h1>
+		{% for product in products %}
+            <div class="item">
+                 <a href="/{{product.id}}/{{product.prodSlug}}/">
+                    <img src="{{ MEDIA_URL }}{{product.image}}" style="width:164px;height:164px;">
+                </a><br>
+                <a href="/{{product.id}}/{{product.prodSlug}}/">{{product.prodName}}</a><br>
+                &euro;{{product.price}}
+            </div>
+        {% endfor %}    
+    </div>
+
+{% endblock %}

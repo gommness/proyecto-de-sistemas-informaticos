@@ -1,0 +1,33 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        {% block extra_css %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/mycss.css' %}">
+        {% endblock extra_css %}
+    </head>
+
+    <body>
+        <div id="header">
+            <a href="/" class="logo">La Parfumerie</a>
+            {% block header %}{% endblock %}
+        </div>
+
+        <div id="subheader">
+            <div class="cart">
+                {% block shoppingcart %}{% endblock %}
+            </div>
+        </div>
+        
+        <div id="content">
+            {% block content %}{% endblock %}
+        
+            {% block main %}{% endblock %}
+        </div>
+    </body>
+</html>
