@@ -1,0 +1,19 @@
+ERRORES COMUNES
+
+visualmente 
+	distintos navegadores
+	limitar campos para que no haya superposiciones al redimensionar
+	que pasa si no ponemos urls validas (decir que ha habido error/no hay producto/no hacer nada)
+	quitar debug
+	poner nuestra propia pagina 404
+	en las paginas de product. Validar tanto el id como el prod-slug
+	ordenar alfabeticamente productos en home y categorias en la barra lateral del home
+
+codigo comentado
+no comentar html (si se comenta, hacerlo en jsp)
+
+COSIGO BIEN ESTRUCTURADO
+	evitar redundancia de codigo
+
+python en excepciones	
+

@@ -12,12 +12,15 @@ class ShoppingCart (object):
 				request.session is not a proper dictionary and
 				direct manipulation will produce weird results
 		"""
+
 		self.session = request.session
 		cart = self.session.get(self.cartKey)
 		if not cart:
 			#save an empty cart in session
 			cart = self.session[self.cartKey] = {}
+		
 		self.cart = cart
+
 	def addProduct(self, product, units=1, update_units=False):
 		"""
 		Add a product to the cart or update its units.
@@ -28,6 +31,21 @@ class ShoppingCart (object):
 		#your code goes here
 		#implement two different cases:
 		#new product and update of units
+
+		
+
+		if product_id in self.cart:#caso de que existe
+			if update_units == True:
+				self.cart[product_id]['units']=units
+			else:
+				self.cart[product_id]['units']+=units	
+		else:
+			self.cart[product_id]={
+			'units':units,
+			'price':str(product.price)
+			}
+
+
 		self.saveCart()
 
 	def saveCart(self):
@@ -39,14 +57,17 @@ class ShoppingCart (object):
 		#dictionary values have been assigned or deleted
 		#but this will not work for 'units' or 'price' which are values
 		#of a dictionary not a new dictionary
-		self,session.modified = True
+		self.session.modified = True
 
 	def removeProduct(self,product):
 		"""
 		Remove a product from the cart.
 		"""
 		#your code goes here
-		
+		product_id = str(product.id)
+		del self.cart[product_id]
+
+
 
 	def __iter__(self):
 		"""
@@ -54,7 +75,7 @@ class ShoppingCart (object):
 		shoppingCart = Shoppingcart(request)
 		for i in shoppingCart:
 		"""	
-		products_ids = self.cart.keys()
+		product_ids = self.cart.keys()
 		#get the product objects and add them to the cart
 		#products themselves will not be stored in the session variable
 		#so we need to recreate them each time
@@ -74,12 +95,19 @@ class ShoppingCart (object):
 		"""
 		Count all items in the cart. By default it counts the number of 
 		different products
-		"""		 	
-		return #your code goes here
+		"""
+		units = 0
+		for prod in self:
+			units += prod['units']
+
+		return units
 
 
 	def get_total_price(self):
-		return #your code goes here
+		total=0
+		for prod in self:
+			total += prod['total_price']
+		return total
 
 
 	def clear(self):
