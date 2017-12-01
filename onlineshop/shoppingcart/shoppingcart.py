@@ -66,6 +66,7 @@ class ShoppingCart (object):
 		#your code goes here
 		product_id = str(product.id)
 		del self.cart[product_id]
+		self.session.modified = True
 
 
 

@@ -121,3 +121,25 @@ a.button, input[type="submit"] {
     float:left;
     padding:0 20px 20px 0;
 }
+
+.little-image {
+    width:164px;
+    height:164px;
+}
+
+.table {
+    width:100%;
+    background-color: white;
+}
+
+.table-meta {
+    background-color: #a9fcdd
+}
+
+.table-data{
+    text-align: center;
+    background-color: white;
+}
+.table-data:hover{
+    background-color: #d9f9ed
+}

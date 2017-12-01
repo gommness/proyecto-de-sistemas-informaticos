@@ -16,7 +16,7 @@ class Category(models.Model):
 	"""
 	maxLen = 128;
 	catName = models.CharField(max_length=maxLen, null=False, unique=True)
-	catSlug = models.SlugField(blank=True,unique=True) #blank=True creemos que no es necesario (?)
+	catSlug = models.SlugField(max_length=maxLen, blank=True,unique=True) #blank=True creemos que no es necesario (?)
 	#README hay que ver si catSlug tiene que ser hidden para el admin (?)
 
 	class Meta:
@@ -41,7 +41,7 @@ class Product(models.Model):
 	maxLen = 128;
 	category = models.ForeignKey(Category, null=False)
 	prodName = models.CharField(max_length=maxLen, null=False,unique=True)
-	prodSlug = models.SlugField(null=False,unique=True,blank=True) #blank=True creemos que no es necesario (?)
+	prodSlug = models.SlugField(max_length=maxLen, null=False,unique=True,blank=True) #blank=True creemos que no es necesario (?)
 	image = models.ImageField(null=False,upload_to='images/products')#probablemente haya que modificar el parametro upload_to
 	description = models.CharField(max_length=maxLen, null=False)
 	price = models.DecimalField(max_digits=10,decimal_places=2,null=False)

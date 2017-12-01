@@ -1,0 +1,78 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+  {% if category %}
+    {{ category.catName }}
+  {% else %}
+    Products
+  {% endif %}
+{% endblock %}
+
+
+{% block header %}
+  THE BEST AND MOST AFFORDABLE PARFUMS YOU'LL EVER FIND!
+{% endblock %}
+
+
+{% block shoppingcart %}
+  Empty Cart
+{% endblock %}
+
+{% block content %}
+<table class="table">
+  <thead class="table-meta">
+    <tr>
+      <th>Image</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Remove</th>
+      <th>Unit price</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for prod in shoppingcart %}
+      <tr class="table-data">
+        <td>
+          <a href="/{{ prod.product.id }}/{{ prod.product.prodSlug }}/">
+            <img src="{{ prod.product.image.url }}" class="little-image"/>
+          </a>
+        </td>
+        <td>
+          {{ prod.product.prodName }}
+        </td>
+        <td>
+          <p>{{ prod.units }}</p>
+          <form action="/shoppingcart/add/{{ prod.product.id }}/" method="post">
+            <input type="hidden" name="update" value="True" id="id_update" />
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+              {{ field.errors }}
+              {{ field.help_text }}
+              {{ field }}<br>
+            {% endfor %}
+          <input type="hidden" name="update" value="True" id="id_update" />
+          <input type="submit" name="submit" value="update quantity">
+          <!-- <input type='hidden' name='csrfmiddlewaretoken' value='nTR3XIuHZYmUQvJs3csm4DacgZjY7zvuB12nKUK9mVJ4Wu4m2b9sLuiMVIJxspKg' />  WTF??? -->
+          </form>
+        </td>
+        <td><a href="/shoppingcart/remove/{{ prod.product.id }}/">Remove<a></td>
+        <td class="num">&euro;{{ prod.price  }}</td>
+        <td class="num">&euro;{{ prod.total_price  }}</td>
+      </tr>
+    {% endfor %}
+      <tr class="table-meta">
+        <td>Total</td>
+        <td colspan="4"></td>
+        <td class="num">&euro;{{ shoppingcart.get_total_price }}</td>
+      </tr>
+  </tbody>
+</table>
+<p class="text-right">
+    <a href="/" class="button light">Continue shopping</a>
+    
+    <a href="/orders/create/" class="button">Checkout</a>
+
+</p>
+{% endblock %}
