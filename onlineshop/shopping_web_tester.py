@@ -32,18 +32,16 @@ class onLineShopTester(unittest.TestCase):
     PLACEORDER    = False # place order. The END ;-)
     username    = "alumnodb"
     passwd      = "alumnodb"
-
     #base_url    = "https://rocky-inlet-76734.herokuapp.com/"
     #base_url    = "https://pure-bayou-13155.herokuapp.com/"
     #base_url     = "http://127.0.0.1:8000/"
-    base_url     =  "https://pacific-ocean-78885.herokuapp.com/"
+    base_url = "https://pacific-ocean-78885.herokuapp.com/"
     admin_url    = base_url + "admin/"
     shoppingcart_url = base_url + "shoppingcart/list/"
     create_order_url      = base_url + "placeorder/create_order/"
     confirm_order_url = base_url + "placeorder/confirm_order/"
     addCategoryPath = "shop/category/add/"
     addProductPath  = "shop/product/add/"
-
     catList     = ["Eau de Cologne", "Eau de Parfum","Eau de Toilette"]
     
     #los jpg esperados deben llamarse como los names
