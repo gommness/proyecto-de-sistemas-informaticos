@@ -16,6 +16,19 @@ from views import shoppingcart_list
 from forms import CartAddProductForm
 #python ./manage.py test shoppingcart.tests.shoppingCartTest --keepdb
 
+#python manage.py test shoppingcart.tests.shoppingCartTest.test_shoppingCartAdd --keepdb
+#python manage.py test shoppingcart.tests.shoppingCartTest.test_shoppingCartRemoveProduct --keepdb
+#python manage.py test shoppingcart.tests.shoppingCartTest.test_shoppingCartLen --keepdb
+#python manage.py test shoppingcart.tests.shoppingCartTest.test_shoppingCartTotalPrice --keepdb
+#python manage.py test shoppingcart.tests.shoppingCartTest.test_shoppingCartList --keepdb
+#python manage.py test shoppingcart.tests.shoppingCartTest.test_blank_form --
+#python manage.py test shoppingcart.tests.shoppingCartTest.test_valid_form --keepdb
+
+
+
+
+
+
 DEBUG = False
 
 
