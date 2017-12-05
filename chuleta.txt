@@ -1,13 +1,183 @@
-iniciar proyecto de django:
+INICIAR PROYECTO DE DJANGO:
 	$ django-admin.py startproject <<PROJECT_NAME>>
 
-arrancar servidor:
+ARRANCAR EL SERVIDOR:
 	$ python manage.py runserver
 
-crear una aplicacion django:
+CREAR UNA APLICACION DJANGO:
 	$ python manage.py startapp <<APP_NAME>>
 	FILE: <<PROJECT_NAME>>/settings.py:
 		añadir '<<APP_NAME>>' al final de la lista INSTALLED_APPS
 
-creating a view: (pag 22)
-mapping urls: (pag 23)
+CREATING A VIEW: (pag 22)
+	una view es una funcion en el fichero views.py de la app.
+	Recibe un objeto de tipo httpRequest y devuelve o bien una llamada a render o bien una llamada a redirect
+		Asegurate de hacer estos imports:
+			from __future__ import unicode_literals
+			from django.shortcuts import render, redirect
+			from django.http import HttpResponse
+		E imports necesarios para tu app
+
+		La llamada a redirect:
+			return redirect('product_list')
+			redirecciona al cliente al metodo escrito entre comillas
+		La llamada a render:
+			return render(request, 'shop/detail.html', {'product': product, 'form':form})
+			hace que el interprete de django genere el html a partir del fichero html con lenguaje de django embebido (indicado en el segundo argumento)
+			El tercer argumento es un diccionario que el interprete antes mencionado utilizara para generar el html (mas sobre esto en templates)
+
+
+MAPPING URLS: (pag 23)
+	En los ficheros urls.py de cada app y del proyecto hay un diccionario que se usa para, dada una url, rederizar una view.
+	Ejemplo:
+		urlpatterns = [
+			url(r'^$', views.product_list, name = "product_list"),
+			url(r'^(?P<catSlug>[-\w]+)/$', views.product_list, name = "product_list_by_category"),
+			url(r'^(?P<id>\d+)/(?P<prodSlug>[-\w]+)/$', views.product_detail, name = "product_detail"),
+		]
+	Se utilizan expresiones regulares (en python: r'' es una expresion regular)
+		^ significa "comienzo"
+		$ significa "final"
+		(?P<nombre_variable>) obtiene el nombre de una variable que vaya en la url (metodo GET) y lo guarda en el objeto httpRequest que se le pasa a la view
+		en esencia funcionan igual que las de Paulen
+	El segundo argumento es el metodo de views que renderizara lo que sea
+	y el tercer argumento es el nombre del metodo (no se muy bien que hace pero en principio llamalo igual que el metodo y al carrer)
+	
+
+TEMPLATES
+	Los ficheros .html con las templates utilizan un lenguaje interpretado por django.
+	Reglas generales del lenguaje:
+		{% comando %}
+			es una expresion que realiza cierta instruccion. Por ejemplo, ifelse, for, etc.
+			Algunos comandos utiles:
+				{% extends 'shop/base.html' %} se pone al principio del template. Para darle esqueleto con
+												contenido por defecto (localizado en el argumento entre comillas) a la pagina
+
+				{% block title %} Se pone para abrir un bloque de contenido (en este caso title) que se encuentra en el fichero del que extiende
+
+				{% csrf_token %} Se pone solo en los forms. Sirve para que django escriba no se que etiqueta que comprueba integridad. Lo pones y te olvidas
+
+				{% if <<variable>> %} {% else %}  {% endif %} {% for <<iterador>> in <<coleccion>> %} {% endfor %}
+
+		{{ <nombre_variable> }} es una expresion que es sustituida por el valor de la variable <<nombre_variable>>
+								<<nombre_variable>> es la clave del diccionario de contexto que se le pasa desde el metodo render.
+								seria el equivalente a hacer en python: context_dict['<<nombre_variable>>']
+								si context_dict['<<nombre_variable>>'] es un objeto, entonces en la template puedes hacer cosas como:
+								<<nombre_variable>>.atributo
+								<<nombre_variable>>.metodo //no hay que poner los parentesis aunque sea un metodo creo
+								y el interprete de django lo entendera bien.
+
+FORMS:
+	para los formularios, hay que crear una clase en el archivo forms.py
+	Esta clase tiene que tener atributos de clase como:
+		forms.BooleanField(widget=forms.HiddenInput(), initial=False, required=False)
+		units = forms.IntegerField(min_value=1,required=True)
+	Con esto no basta. En el metodo de views que renderizara la pagina que contenga este formulario, hay que incluir el formulario en el diccionario del render:
+		form = CartAddProductForm() //Ese metodo es el constructor de la clase del formulario (por defecto el constructor tiene el mismo nombre que la clase)
+		return render(request, 'shop/detail.html', {'product': product, 'form':form})
+	Y para finalizar, en la template, para meter el form, se puede copiar a piñon fijo lo siguiente:
+		{% csrf_token %}
+		{% for hidden in form.hidden_fields %}
+			{{ hidden }}
+		{% endfor %}
+		{% for field in form.visible_fields %}
+			{{ field.errors }}
+			{{ field.help_text }}
+			{{ field }}<br>
+		{% endfor %}
+		aprovecho para recordar que el {% csrf_token %} se pone y te olvidas. En el html generara una etiqueta tipo:
+			<input type='hidden' name='csrfmiddlewaretoken' value='SHco8QK2NWBoH15veftQPriqPQSn6AdTONUhBoRTi1QLmSXPUuSGGMpVnfhuR7pG' />
+		que django requiere. Es decir, que no copies esta etiqueta si te proporcionan un html de ejemplo porque se genera con el token ese
+
+MODELS:
+	en models.py se declaran las clases que modelaran los datos guardados en la base de datos.
+	son clases que tienen atributos de clase. Por ejemplo:
+		models.CharField(max_length=128, null=False, unique=True)
+		models.SlugField(max_length=128, blank=True,unique=True)
+	y metodos y clases para su representacion:
+
+		class Meta:
+		verbose_name_plural = 'Categories'
+
+		def __str__(self): # For Python 2, use __unicode__ too
+			return self.catName
+
+		def __unicode__(self): # For Python 2, use __unicode__ too
+			return self.catName
+
+	adicionalmente, como los models heredan de una clase de django que implementa el metodo save, se puede sobrecargar este metodo para, por ejemplo, hacer el slug automatico:
+
+		def save(self, *args, **kwargs):
+			self.catSlug = slugify(self.catName)
+			super(Category, self).save(*args, **kwargs)
+
+	Una vez declarados los modelos de la ddbb:
+
+		para comitear los modelos a la ddbb
+		$ python manage.py makemigrations
+
+		para aplicar los comits a la ddbb
+		$ python manage.py migrate
+
+	IMPORTANTE: recuerda que en settings.py tienes declarado un diccionario DATABASES que le dice a django que ddbb usar.
+				encima de esta declaracion hay una instruccion para que sea una ddbb postgres.
+				Pero ante la duda, para hacer que sea SQLITE:
+					$ export SQLITE=1
+
+HEROKU
+	Para poder desplegar en heroku, es necesario inicializar un repositorio git en la carpeta del proyecto (dentro de onlineshop pero fuera de sus apps)
+	Para empezar, es necesario crear los siguientes ficheros:
+
+		Procfile (localizado en la raiz del proyecto)
+		con contenido: web: gunicorn tango_with_django_project.wsgi --log-file -
+
+		runtime.txt (en la raiz)
+		con contenido: python-2.7.14
+
+		requirements.txt (en la raiz)
+		con contenido: los paquetes instalados mediante pip que necesite nuestro proyecto.
+		El siguiente comando lo generara
+		$ pip freeze > requirements.txt
+		Por defecto, al hacer esto el fichero tendra paquetes de mas. Quita los no importantes y deja:
+			loremipsum==1.0.5
+			selenium==3.7.0
+			dj-database-url==0.4.2
+			dj-static==0.0.6
+			Django==1.11.5
+			Pillow==2.3.0
+			psycopg2==2.7.3.1
+			static3==0.7.0
+			gunicorn==19.6.0
+
+		una vez creados esos 3 ficheros. Dentro de la carpeta del proyecto (que hay dentro de la raiz) modificamos wsgi.py añadiendo:
+			from django.core.wsgi import get_wsgi_application
+			from dj_static import Cling
+			...
+			application = Cling(get_wsgi_application())
+
+		Con todo eso hecho, podemos crear el repositorio git:
+			$ git init
+			$ git add .
+			$ git commit -m "initial commit"
+		Y creamos la aplicacion en heroku:
+			$ heroku login
+			$ heroku create
+		En settings.py modificamos la lista ALLOWED_HOSTS:
+			ALLOWED_HOSTS = [u'<<url_de_tu_app>>']
+		volvemos a commitear y luego hacemos
+			$ git push heroku master
+		Si da error, prueba a hacer
+			$ git push heroku master | grep <<palabra_que_pueda_darte_pistas_sobre_el_error>>
+				por ejemplo: $ git push heroku master | grep tango_with_django
+		por ultimo, para arrancar el servidor de heroku:
+			$ heroku ps:scale web=1
+		Para revisar los logs en caso de error:
+			$ heroku logs
+		Para abrir una terminal en heroku:
+			$ heroku run bash
+				una vez abierta esta terminal, recuerda hacer:
+					$ export DATABASE_URL='postgres://alumnodb:alumnodb@localhost:5432/psi' 
+					$ pyhton manage.py makemigrations
+					$ pyhton manage.py migrate
+					$ pyhton manage.py create_super_user.py
+					$ pyhton populate.py
