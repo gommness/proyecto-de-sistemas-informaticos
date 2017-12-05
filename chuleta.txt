@@ -71,7 +71,7 @@ FORMS:
 	para los formularios, hay que crear una clase en el archivo forms.py
 	Esta clase tiene que tener atributos de clase como:
 		forms.BooleanField(widget=forms.HiddenInput(), initial=False, required=False)
-		units = forms.IntegerField(min_value=1,required=True)
+		units = forms.IntegerField(min_value=1,required=True)º
 	Con esto no basta. En el metodo de views que renderizara la pagina que contenga este formulario, hay que incluir el formulario en el diccionario del render:
 		form = CartAddProductForm() //Ese metodo es el constructor de la clase del formulario (por defecto el constructor tiene el mismo nombre que la clase)
 		return render(request, 'shop/detail.html', {'product': product, 'form':form})

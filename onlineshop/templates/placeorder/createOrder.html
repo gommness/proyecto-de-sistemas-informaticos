@@ -1,0 +1,43 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+  {% if category %}
+    {{ category.catName }}
+  {% else %}
+    Products
+  {% endif %}
+{% endblock %}
+
+
+{% block header %}
+  THE BEST AND MOST AFFORDABLE PARFUMS YOU'LL EVER FIND!
+{% endblock %}
+
+{% block content %}
+        
+    <h1>Checkout</h1>
+    
+    <div class="order-info">
+        <h3>Your order</h3>
+        <ul>
+                {% for prod in shoppingcart %} 
+                     <li>{{ prod.units }}x {{ prod.product.prodName }} <span>${{ prod.price }}</span></li>
+                {% endfor %}
+        </ul>
+        <p>Total: ${{ shoppingcart.get_total_price }}</p>
+    </div>
+    
+    <form action="." method="post" class="order-form">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <p>
+              {{ field.errors }}
+              {{ field.help_text }}
+              {{ field }}
+          </p>
+        {% endfor %}
+        <p><input type="submit" value="Place order"></p>
+    </form>
+
+{% endblock %}
