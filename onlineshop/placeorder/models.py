@@ -26,6 +26,19 @@ class Order(models.Model):
 			total += order.getProductCost()
 		return total
 
+	@classmethod
+	def create(cls, firstName, familyName, email, address, zip, city, paid):
+		order = cls()
+		order.firstName = firstName
+		order.familyName = familyName
+		order.email = email
+		order.address = address
+		order.zip = zip
+		order.city = city
+		order.paid = paid
+		order.save()
+		return order
+
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.firstName+" "+self.familyName+" ("+self.email+") "+" @ "+self.address+" ("+self.zip+" "+self.city+") STATUS: "+self.paid
 
@@ -48,6 +61,16 @@ class OrderLine(models.Model):
 
 	def __unicode__(self): # For Python 2, use __unicode__ too
 		return self.__str__()
+
+	@classmethod
+	def create(cls, order, product, units, pricePerUnit):
+		orderLine = cls()
+		orderLine.order = order
+		orderLine.product = product
+		orderLine.units = units
+		orderLine.pricePerUnit = pricePerUnit
+		orderLine.save()
+		return orderLine
 
 	def getProductCost(self):
 		return self.units * self.pricePerUnit

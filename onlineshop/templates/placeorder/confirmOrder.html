@@ -1,0 +1,20 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+  {% if category %}
+    {{ category.catName }}
+  {% else %}
+    Products
+  {% endif %}
+{% endblock %}
+
+
+{% block header %}
+  THE BEST AND MOST AFFORDABLE PARFUMS YOU'LL EVER FIND!
+{% endblock %}
+
+{% block content %}
+	<h1>Thank you for your purchase!</h1>
+	<p>your order number is: <strong>{{ orderid }}</strong></p>
+{% endblock %}

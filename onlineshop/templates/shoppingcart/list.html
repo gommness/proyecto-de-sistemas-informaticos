@@ -48,12 +48,12 @@
               {{ field.help_text }}
               {{ field }}<br>
             {% endfor %}
-          <input type="hidden" name="update" value="True" id="id_update" />
-          <input type="submit" name="submit" value="update quantity">
+          <input class="button" type="hidden" name="update" value="True" id="id_update" />
+          <input class="button" type="submit" name="submit" value="update quantity">
           <!-- <input type='hidden' name='csrfmiddlewaretoken' value='nTR3XIuHZYmUQvJs3csm4DacgZjY7zvuB12nKUK9mVJ4Wu4m2b9sLuiMVIJxspKg' />  WTF??? -->
           </form>
         </td>
-        <td><a href="/shoppingcart/remove/{{ prod.product.id }}/">Remove<a></td>
+        <td><a class="button" href="/shoppingcart/remove/{{ prod.product.id }}/">Remove<a></td>
         <td class="num">&euro;{{ prod.price  }}</td>
         <td class="num">&euro;{{ prod.total_price  }}</td>
       </tr>
@@ -66,9 +66,9 @@
   </tbody>
 </table>
 <p class="text-right">
-    <a href="/" class="button light">Continue shopping</a>
+    <a class="button" href="/" class="button light">Continue shopping</a>
     
-    <a href="/placeorder/create_order/" class="button">Checkout</a>
+    <a class="button" href="/placeorder/create_order/" class="button">Checkout</a>
 
 </p>
 {% endblock %}
