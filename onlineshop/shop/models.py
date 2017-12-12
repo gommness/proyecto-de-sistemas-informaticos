@@ -22,6 +22,9 @@ class Category(models.Model):
 	class Meta:
 		verbose_name_plural = 'Categories'
 
+	def __lt__(self, other):
+		return self.catName < other.catName
+
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.catName
 
@@ -49,6 +52,9 @@ class Product(models.Model):
 	availability = models.BooleanField(null=False,default=True)
 	created = models.DateTimeField(default=now)
 	updated = models.DateTimeField(auto_now=True)
+
+	def __lt__(self, other):
+		return self.prodName < other.prodName
 
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.prodName

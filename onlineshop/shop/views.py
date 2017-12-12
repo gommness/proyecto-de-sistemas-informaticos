@@ -23,15 +23,15 @@ def product_list(request, catSlug=None):
 	queries that fill category, categories and products
 	Author: Carlos Li
 	"""
-	categories = Category.objects.values()
+	categories = Category.objects.values().order_by('catName')
 
 	if catSlug == None :
 		category = None
-		products = Product.objects.values()
+		products = Product.objects.values().order_by('prodName')
 	else:
 		try:
 			category=Category.objects.get(catSlug = catSlug)
-			products=Product.objects.filter(category = category)
+			products=sorted(Product.objects.filter(category = category))
 		except Category.DoesNotExist:
 			return redirect('product_list')
 	return render(request,'shop/list.html',
