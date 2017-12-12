@@ -158,6 +158,7 @@ a.button:hover, input[type="submit"]:hover{
 }
 
 .table {
+    overflow:hidden;
     width:100%;
     background-color: white;
 }

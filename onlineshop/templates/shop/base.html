@@ -22,7 +22,7 @@
             <div class="cart">
                 {% block shoppingcart %}
                     {% if shoppingcart|length > 0 %}
-                        <a href="/shoppingcart/list/"> items on your cart: {{ shoppingcart|length }} </a>
+                        <a href="/shoppingcart/list/"> items on your cart: {{ shoppingcart|length }}: {{ shoppingcart.get_total_price }} &euro; </a>
                     {% else %}
                         this cart is empty
                     {% endif %}

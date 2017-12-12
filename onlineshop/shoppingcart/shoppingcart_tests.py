@@ -9,6 +9,8 @@ from shoppingcart import ShoppingCart
 from PIL import Image
 from StringIO import StringIO
 from django.core.files.base import File
+from onlineshop.settings import BASE_DIR
+import os
 
 from decimal import Decimal
 
@@ -208,8 +210,9 @@ class shoppingCartTest(TestCase):
         f.close()
         from selenium import webdriver
         import time
-        driver = webdriver.Chrome()
-        driver.get("file:///tmp/delete.html")
+        driver = os.path.join(BASE_DIR, "chromedriver")
+        #driver = webdriver.Chrome()
+        #driver.get("file:///tmp/delete.html")
         self.assertTrue(True)
         time.sleep(20)
 
