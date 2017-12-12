@@ -89,6 +89,9 @@ a.button:hover, input[type="submit"]:hover{
 }
 
 #sidebar {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     width:220px;
     float:left;
     height: auto;
