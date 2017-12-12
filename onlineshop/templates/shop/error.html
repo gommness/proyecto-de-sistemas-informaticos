@@ -1,0 +1,22 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+	{% if category %}
+		{{ category.catName }}
+	{% else %}
+		Products
+	{% endif %}
+{% endblock %}
+
+
+{% block header %}
+	THE BEST AND MOST AFFORDABLE PARFUMS YOU'LL EVER FIND!
+{% endblock %}
+
+
+{% block content %}
+	<h1>Sorry</h1>
+	<p>{{ error }}</p>
+	<a href="/{{product.id}}/{{product.prodSlug}}/">{{ product.prodName }} </a>
+{% endblock %}

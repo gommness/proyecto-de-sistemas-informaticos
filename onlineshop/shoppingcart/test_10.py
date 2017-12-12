@@ -16,6 +16,10 @@ DEBUG = False
 
 
 class shoppingCartTest_10(TestCase):
+    """
+    clase de test
+    Author: Javier Gomez
+    """
     def setUp(self):
         self._client   = Client()
         # self.clean_database()
@@ -53,6 +57,10 @@ class shoppingCartTest_10(TestCase):
         return p
 
     def test(self):
+        """
+        funcion para realizar el test
+        Author: Javier Gomez
+        """
     	price = 1.1
         stock = 10
         units1 = 1

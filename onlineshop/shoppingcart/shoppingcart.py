@@ -5,6 +5,10 @@ class ShoppingCart (object):
 	cartKey = 'shoppingCart'
 	def __init__(self, request):
 		"""
+		constructor del carrito
+		Author: Carlos Li
+		"""
+		"""
 		Initialize the cart:
 			if request.session['self.cartKey'] does not exist, create one
 			Important: Make a copy of request.session['self.cartKey']
@@ -22,6 +26,10 @@ class ShoppingCart (object):
 		self.cart = cart
 
 	def addProduct(self, product, units=1, update_units=False):
+		"""
+		metodo para meter un producto en el carrito
+		Author: Javier Gomez
+		"""
 		"""
 		Add a product to the cart or update its units.
 		"""
@@ -49,6 +57,10 @@ class ShoppingCart (object):
 		self.saveCart()
 
 	def saveCart(self):
+		"""
+		metodo para guardar el carrito
+		Author: Carlos Li
+		"""
 		#update the session cart
 		self.session[self.cartKey] = self.cart
 		#mark the session as "modified"	 to make sure it is saved
@@ -60,6 +72,10 @@ class ShoppingCart (object):
 		self.session.modified = True
 
 	def removeProduct(self,product):
+		"""
+		metodo para eliminar un producto del carrito
+		Author: Carlos Li
+		"""
 		"""
 		Remove a product from the cart.
 		"""
@@ -94,6 +110,10 @@ class ShoppingCart (object):
 
 	def __len__(self):
 		"""
+		metodo obtener el numero de unidades de productos que hay en el carrito
+		Author: Javier Gomez
+		"""
+		"""
 		Count all items in the cart. By default it counts the number of 
 		different products
 		"""
@@ -105,6 +125,10 @@ class ShoppingCart (object):
 
 
 	def get_total_price(self):
+		"""
+		metodo para obtener el precio total del carrito
+		Author: Carlos Li
+		"""
 		total=0
 		for prod in self:
 			total += prod['total_price']

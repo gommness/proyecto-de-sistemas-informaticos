@@ -8,6 +8,10 @@ from django.utils.timezone import now
 # Create your models here.
 
 class Order(models.Model):
+	"""
+	el modelo de un order
+	Author: Javier Gomez
+	"""
 	maxLen = 128
 	firstName = models.CharField(max_length=maxLen, null=False)
 	familyName = models.CharField(max_length=maxLen, null=False)
@@ -20,6 +24,10 @@ class Order(models.Model):
 	paid = models.BooleanField(default=False) #not null (?)
 
 	def getTotalCost(self):
+		"""
+		metodo para obtener el precio total de un order
+		Author: Carlos Li
+		"""
 		total = 0
 		collection = self.orderLines.all()
 		for order in collection:
@@ -28,6 +36,10 @@ class Order(models.Model):
 
 	@classmethod
 	def create(cls, firstName, familyName, email, address, zip, city, paid):
+		"""
+		metodo estatico para crear un order a partir de los datos introducidos
+		Author: Javier Gomez
+		"""
 		order = cls()
 		order.firstName = firstName
 		order.familyName = familyName
@@ -51,6 +63,10 @@ class Order(models.Model):
 
 
 class OrderLine(models.Model):
+	"""
+	clase que representa un producto dentro de un pedido
+	Author: Carlos Li
+	"""
 	order = models.ForeignKey(Order, null=False, related_name='orderLines')
 	product = models.ForeignKey(Product, null=False, related_name='productLines')
 	units = models.IntegerField(null=False)#ponerle minimo?
@@ -64,6 +80,10 @@ class OrderLine(models.Model):
 
 	@classmethod
 	def create(cls, order, product, units, pricePerUnit):
+		"""
+		metodo para crear un producto perteneciente a un pedido
+		Author: Javier Gomez
+		"""
 		orderLine = cls()
 		orderLine.order = order
 		orderLine.product = product
@@ -73,6 +93,10 @@ class OrderLine(models.Model):
 		return orderLine
 
 	def getProductCost(self):
+		"""
+		metodo para obtener el coste del producto
+		Author: Carlos Li
+		"""
 		return self.units * self.pricePerUnit
 
 	def save(self, *args, **kwargs):

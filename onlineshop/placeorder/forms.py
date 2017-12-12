@@ -2,6 +2,10 @@ from django import forms
 from placeorder.models import Order
 
 class OrderCreateForm(forms.ModelForm):
+	"""
+	clase que representa el formulario para crear un order
+	Author: Carlos Li
+	"""
 	maxLen = 128
 	firstName = forms.CharField(max_length=maxLen, help_text="Please enter your first name")
 	familyName = forms.CharField(max_length=maxLen, help_text="Please enter your family name")

@@ -8,6 +8,10 @@ from placeorder.models import Order, OrderLine
 
 # Create your views here.
 def createOrder(request):
+	"""
+	Vista para la creacion del pedido. Con el formulario que le pide datos al usuario
+	Author: Carlos Li
+	"""
 	form = OrderCreateForm()
 	_shoppingcart = ShoppingCart(request)
 	return render(request,'placeorder/createOrder.html',
@@ -15,6 +19,10 @@ def createOrder(request):
 		'form' : form})
 
 def confirmOrder(request):
+	"""
+	vista que valida el formulario de un pedido y crea en la ddbb entradas relacionadas con ese pedido.
+	Author: Javier Gomez
+	"""
 	if request.method == 'POST':
 		form = OrderCreateForm(request.POST)
 		if form.is_valid():
