@@ -38,7 +38,7 @@ def confirmOrder(request):
 		else:
 			return redirect("create_order")
 	else:
-		return redrect("createOrder")
+		return redirect("create_order")
 	order = Order.create(firstName, familyName, email, address, zip, city, True)
 	shoppingcart=ShoppingCart(request)
 	if len(shoppingcart) <= 0:
