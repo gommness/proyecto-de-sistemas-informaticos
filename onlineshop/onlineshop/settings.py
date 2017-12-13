@@ -26,6 +26,7 @@ SECRET_KEY = '@oujbw3-xsx2ir6cphqc-g2f#r61l=h+$y)r^c#k($y3k5$leb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#DEBUG = False
 
 
 # Application definition

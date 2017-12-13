@@ -5,6 +5,7 @@ from django.http import HttpResponse
 
 from models import Category, Product
 from shoppingcart.forms import CartAddProductForm
+from shoppingcart.shoppingcart import ShoppingCart
 
 # Create your views here.
 
@@ -49,4 +50,6 @@ def product_detail(request, id, prodSlug):
 	except Product.DoesNotExist:
 		return redirect('product_list')
 	form = CartAddProductForm()
-	return render(request, 'shop/detail.html', {'product': product, 'form':form})
+	shoppingcart = ShoppingCart(request)
+	having = shoppingcart.unitsOf(product)
+	return render(request, 'shop/detail.html', {'product': product, 'form':form, 'having' : having})

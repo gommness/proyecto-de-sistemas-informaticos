@@ -35,15 +35,17 @@ def shoppingcart_add(request,product_id):
 		if form.is_valid():
 			units = form.cleaned_data['units']
 			update = form.cleaned_data['update']
-			if product.stock < units:
-				return render(request, "shop/error.html", {'error' : "not enough stock left", 'product' : product})
 		else: print(form.errors)
 	else:
 		print(form.errors)
 
-	shoppingcart.addProduct(product=product,
-		units=units,
-		update_units=update)
+	try:
+		shoppingcart.addProduct(product=product,
+			units=units,
+			update_units=update)
+	except:
+		return render(request, "shop/error.html", {'error' : "not enough stock left for:", 'products' : [product], 'category': None})
+		
 	return redirect('shoppingcart_list')
 
 def shoppingcart_remove(request,product_id):

@@ -9,6 +9,7 @@
     <h2><a href="/{{product.category.catSlug}}/">{{product.category.catName}}</a></h2>
     <p class="price">&euro;{{product.price}}</p>
     <p>stock: {{ product.stock }}</p>
+    <p>you have: {{ having }} units of this product on your cart</p>
     <form id="cart_add_product_form" action="/shoppingcart/add/{{product.id}}/" method="post">
       {% csrf_token %}
       {% for hidden in form.hidden_fields %}

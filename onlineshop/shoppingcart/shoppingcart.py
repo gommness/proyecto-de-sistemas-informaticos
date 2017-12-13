@@ -1,5 +1,6 @@
 from decimal import Decimal
 from shop.models import Product
+from shop.exceptions import StockException
 
 class ShoppingCart (object):
 	cartKey = 'shoppingCart'
@@ -25,6 +26,15 @@ class ShoppingCart (object):
 		
 		self.cart = cart
 
+	def has(self, product):
+		return str(product.id) in self.cart
+
+	def unitsOf(self, product):
+		return self.cart[str(product.id)]['units'] if str(product.id) in self.cart else 0
+
+	def isEmpty(self):
+		return not self.cart
+
 	def addProduct(self, product, units=1, update_units=False):
 		"""
 		metodo para meter un producto en el carrito
@@ -40,7 +50,9 @@ class ShoppingCart (object):
 		#implement two different cases:
 		#new product and update of units
 
-		
+		if (units > product.stock) or (product_id in self.cart and update_units == False and units + self.cart[product_id]['units'] > product.stock):
+			raise StockException()
+
 
 		if product_id in self.cart:#caso de que existe
 			if update_units == True:

@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from placeorder.forms import OrderCreateForm
 from shoppingcart.shoppingcart import ShoppingCart
 from placeorder.models import Order, OrderLine
+from shop.exceptions import StockException
 
 # Create your views here.
 def createOrder(request):
@@ -14,6 +15,8 @@ def createOrder(request):
 	"""
 	form = OrderCreateForm()
 	_shoppingcart = ShoppingCart(request)
+	if _shoppingcart.isEmpty():
+		return redirect('product_list')
 	return render(request,'placeorder/createOrder.html',
 		{'shoppingcart': _shoppingcart,
 		'form' : form})
@@ -39,11 +42,24 @@ def confirmOrder(request):
 	shoppingcart=ShoppingCart(request)
 	if len(shoppingcart) <= 0:
 		return redirect('product_list')
+	exceptionProds = []
+
+	for prod in shoppingcart:
+		if prod['units'] > prod['product'].stock:
+			exceptionProds.append(prod['product'])
+	if exceptionProds:
+		return render(request, "shop/error.html", {'error' : "not enough stock left for:", 'products' : exceptionProds, 'category': None})
+
+	order.save()
+
 	for prod in shoppingcart:
 		product = prod["product"]
 		units = prod["units"]
+		product.stock -= units
+		product.save()
 		pricePerUnit = prod["price"]
 		OrderLine.create(order, product, units, pricePerUnit)
+
 	shoppingcart.clear()
 	return render(request, "placeorder/confirmOrder.html",{"orderid" : order.id})
 	#TODO
