@@ -52,7 +52,7 @@ class Order(models.Model):
 		return order
 
 	def __str__(self): # For Python 2, use __unicode__ too
-		return self.firstName+" "+self.familyName+" ("+self.email+") "+" @ "+self.address+" ("+self.zip+" "+self.city+") STATUS: "+self.paid
+		return ""+str(self.firstName)+" "+str(self.familyName)+" ("+str(self.email)+") "+" @ "+str(self.address)+" ("+str(self.zip)+" "+str(self.city)+") STATUS: "+str(self.paid)
 
 	def __unicode__(self): # For Python 2, use __unicode__ too
 		return self.__str__()
