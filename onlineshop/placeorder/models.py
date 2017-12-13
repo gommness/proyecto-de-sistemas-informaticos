@@ -52,7 +52,7 @@ class Order(models.Model):
 		return order
 
 	def __str__(self): # For Python 2, use __unicode__ too
-		return ""+str(self.firstName)+" "+str(self.familyName)+" ("+str(self.email)+") "+" @ "+str(self.address)+" ("+str(self.zip)+" "+str(self.city)+") STATUS: "+str(self.paid)
+		return ""+str(self.firstName)+" "+str(self.familyName)+" ("+str(self.email)+") "+" STATUS: "+str(self.paid)
 
 	def __unicode__(self): # For Python 2, use __unicode__ too
 		return self.__str__()
@@ -73,7 +73,7 @@ class OrderLine(models.Model):
 	pricePerUnit = models.DecimalField(max_digits=10 ,decimal_places=2)
 
 	def __str__(self):
-		return "product: "+self.product+" order: "+self.order + " units: " +self.units+" price: "+self.pricePerUnit
+		return "product: "+str(self.product)+" order: "+str(self.order.id) + " units: " +str(self.units)+" price: "+str(self.pricePerUnit)
 
 	def __unicode__(self): # For Python 2, use __unicode__ too
 		return self.__str__()
