@@ -35,9 +35,10 @@ def confirmOrder(request):
 			address = form.cleaned_data['address']
 			zip = form.cleaned_data['zip']
 			city = form.cleaned_data['city']
-		else: print(form.errors)
+		else:
+			return redirect("create_order")
 	else:
-		print(form.errors)
+		return redrect("createOrder")
 	order = Order.create(firstName, familyName, email, address, zip, city, True)
 	shoppingcart=ShoppingCart(request)
 	if len(shoppingcart) <= 0:

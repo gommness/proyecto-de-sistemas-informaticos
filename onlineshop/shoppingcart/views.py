@@ -35,9 +35,10 @@ def shoppingcart_add(request,product_id):
 		if form.is_valid():
 			units = form.cleaned_data['units']
 			update = form.cleaned_data['update']
-		else: print(form.errors)
+		else: 
+			return redirect('product_list')
 	else:
-		print(form.errors)
+		return redirect('product_list')
 
 	try:
 		shoppingcart.addProduct(product=product,

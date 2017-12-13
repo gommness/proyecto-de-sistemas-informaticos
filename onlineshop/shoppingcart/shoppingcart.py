@@ -27,12 +27,24 @@ class ShoppingCart (object):
 		self.cart = cart
 
 	def has(self, product):
+		"""
+		comprueba que el carrito tenga un producto
+		Author: Javier Gomez
+		"""
 		return str(product.id) in self.cart
 
 	def unitsOf(self, product):
+		"""
+		devuelve el numero de unidades que hay de un producto en el carrito
+		Author: Carlos Li
+		"""
 		return self.cart[str(product.id)]['units'] if str(product.id) in self.cart else 0
 
 	def isEmpty(self):
+		"""
+		comprueba que el carrito esta vacio
+		Author: Javier Gomez
+		"""
 		return not self.cart
 
 	def addProduct(self, product, units=1, update_units=False):
