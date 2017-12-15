@@ -261,38 +261,21 @@ TESTS:
 	# Create your tests here.
 	class Tests(TestCase):
 		def setUp(self):
-			
 			self._client = Client()
-
 			self.clean_database()
-			
-			#POPULAR BASE DE DATOS
 			medico(1,'medico1')
 			paciente(1,'paciente1')
 			receta(1,1,1)
 			receta(2,1,1)
 			receta(3,1,1)
 			receta(4,1,1)
-		
-		#AQUI HAGO EL TEST EJEMPLOS MAS COMPLETOS EN shop/tests.py
 		def test_view(self):
-			#este test es para buscar en el html una cadena (sacada mirando el html esperado)
-			
-			# 'receta' es el name dado en el views.py
 			response = self._client.get(reverse('receta'), follow=True)
-			
-			# response.content contiene el html a pelo
-			# counterRec es un contador
-
-			# en este caso aparecen en el pdf los que tienen recetaid = {2,3,4}
 			for counterRec in range(2,4):
 				self.assertIn(b"<tr>\n\t\t<th>%d</th>\n\t\t<th>paciente1</th>\n\t\t<th>medico1</th>\n\t</tr>" % counterRec, response.content)
-			
-			# el de counterRec = 1 no aparece (se insertó primero)
 			self.assertNotIn(b"<tr>\n\t\t<th>1</th>\n\t\t<th>paciente1</th>\n\t\t<th>medico1</th>\n\t</tr>", response.content)
-
-		#CON ESTO LIMPIO LA BASE DE DATOS
 		def clean_database(self):
 			Medico.objects.all().delete()
 			Paciente.objects.all().delete()
 			Receta.objects.all().delete()
+	
