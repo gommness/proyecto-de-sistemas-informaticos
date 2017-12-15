@@ -9,6 +9,36 @@ CREAR UNA APLICACION DJANGO:
 	FILE: <<PROJECT_NAME>>/settings.py:
 		añadir '<<APP_NAME>>' al final de la lista INSTALLED_APPS
 
+CREAR LA BBDD POSTGRES PARA DJANGO:
+	hacemos el export necesario para que django Y LOS SCRIPTS DE CLEANING saquen info de la bbdd postgres
+		$ export DATABASE_URL='postgres://alumnodb:alumnodb@localhost:5432/<<nombre_bbdd>>'
+
+	creamos super usuario postgres (en labs no tiene sentido porque el superusuario de bbdd ya esta creado)
+		$ sudo su postgres -c 'createuser -P --superuser alumnodb'
+
+	creamos la bbdd
+		$ createdb -U alumnodb -h localhost <<nombre_bbdd>> 
+		
+	OJO: si la base de datos ya estaba creada, la dropeamos por si tenia alguna mierda:
+		$ python database_cleaner.py
+
+		NOTA: a la hora de hacer los tests:
+			$ export SQLITE=1
+		para deshacer esto:
+			$ unset SQLITE
+
+	En el fichero settings.py, indicamos a django que use postgres o sqlite (dependiendo del expor de SQLITE) asi:
+		DATABASES={}
+		if os.getenv('SQLITE',False):
+		    DATABASES['default'] = {
+		        'ENGINE': 'django.db.backends.sqlite3',
+		        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		    }
+		else:
+		    import dj_database_url
+		    DATABASES['default']= dj_database_url.config()
+
+
 CREATING A VIEW: (pag 22)
 	una view es una funcion en el fichero views.py de la app.
 	Recibe un objeto de tipo httpRequest y devuelve o bien una llamada a render o bien una llamada a redirect
