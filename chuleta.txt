@@ -63,6 +63,17 @@ CREATING A VIEW: (pag 22)
 MAPPING URLS: (pag 23)
 	En los ficheros urls.py de cada app y del proyecto hay un diccionario que se usa para, dada una url, rederizar una view.
 	Ejemplo:
+	en el proyecto:
+		urlpatterns = [
+		    url(r'^admin/', admin.site.urls),
+		    url(r'^shop/', include('shop.urls')),
+		    url(r'^shoppingcart/', include('shoppingcart.urls')),
+		    url(r'^base/', views.base),
+		    url(r'^placeorder/', include('placeorder.urls')),
+		    url(r'^', include('shop.urls')),
+		]
+	en la aplicacion:
+		from aplicacion import views
 		urlpatterns = [
 			url(r'^$', views.product_list, name = "product_list"),
 			url(r'^(?P<catSlug>[-\w]+)/$', views.product_list, name = "product_list_by_category"),
@@ -77,8 +88,9 @@ MAPPING URLS: (pag 23)
 	y el tercer argumento es el nombre del metodo (no se muy bien que hace pero en principio llamalo igual que el metodo y al carrer)
 	
 
-TEMPLATES
+TEMPLATES:
 	Los ficheros .html con las templates utilizan un lenguaje interpretado por django.
+	estos ficheros van dentro de /templates/<<nombre_aplicacion>>
 	Reglas generales del lenguaje:
 		{% comando %}
 			es una expresion que realiza cierta instruccion. Por ejemplo, ifelse, for, etc.
@@ -99,6 +111,12 @@ TEMPLATES
 								<<nombre_variable>>.atributo
 								<<nombre_variable>>.metodo //no hay que poner los parentesis aunque sea un metodo creo
 								y el interprete de django lo entendera bien.
+
+	en settings.py,
+		definir:
+			TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+		en Templates, añadir:
+			'DIRS': [TEMPLATE_DIR],
 
 FORMS:
 	para los formularios, hay que crear una clase en el archivo forms.py
@@ -188,6 +206,18 @@ INIT-----------------------------------------------
 			...
 			application = Cling(get_wsgi_application())
 
+		crear las carpetas:
+			static
+				(con cualquier cosa de contenido para que git lo commitee)
+			media
+		En settings.py copypasteamos:
+			STATIC_ROOT = 'staticfiles'
+			ALLOWED_HOSTS = [u'sheltered-atoll-48634.herokuapp.com', u'127.0.0.1']
+			STATIC_PATH = os.path.join(BASE_DIR,'static')
+			STATIC_URL = '/static/'
+			STATICFILES_DIRS = (
+			    STATIC_PATH,
+			    )
 		Con todo eso hecho, podemos crear el repositorio git:
 			$ git init
 			$ git add .
@@ -195,8 +225,6 @@ INIT-----------------------------------------------
 		Y creamos la aplicacion en heroku:
 			$ heroku login
 			$ heroku create
-		En settings.py modificamos la lista ALLOWED_HOSTS:
-			ALLOWED_HOSTS = [u'<<url_de_tu_app>>']
 		volvemos a commitear y luego hacemos
 			$ git push heroku master
 		Si da error, prueba a hacer
@@ -209,8 +237,12 @@ INIT-----------------------------------------------
 		Para abrir una terminal en heroku:
 			$ heroku run bash
 				una vez abierta esta terminal, recuerda hacer:
-					$ export DATABASE_URL='postgres://alumnodb:alumnodb@localhost:5432/psi' 
+					#### $ export DATABASE_URL='postgres://alumnodb:alumnodb@localhost:5432/psi' 
 					$ pyhton manage.py makemigrations
 					$ pyhton manage.py migrate
-					$ pyhton manage.py create_super_user.py
+					$ pyhton create_super_user.py
 					$ pyhton populate.py
+
+		para el examen:
+			escribir la URL en memoria.txt
+			enseñarselo al ZA TAWAH
