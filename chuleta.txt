@@ -1,3 +1,4 @@
+INIT-----------------------------------------------
 INICIAR PROYECTO DE DJANGO:
 	$ django-admin.py startproject <<PROJECT_NAME>>
 
@@ -26,8 +27,10 @@ CREAR LA BBDD POSTGRES PARA DJANGO:
 			$ export SQLITE=1
 		para deshacer esto:
 			$ unset SQLITE
+-----------------------------------------------------
 
-	En el fichero settings.py, indicamos a django que use postgres o sqlite (dependiendo del expor de SQLITE) asi:
+
+	En el fichero settings.py, indicamos a django que use postgres o sqlite (dependiendo del export de SQLITE) asi:
 		DATABASES={}
 		if os.getenv('SQLITE',False):
 		    DATABASES['default'] = {
@@ -157,7 +160,7 @@ MODELS:
 HEROKU
 	Para poder desplegar en heroku, es necesario inicializar un repositorio git en la carpeta del proyecto (dentro de onlineshop pero fuera de sus apps)
 	Para empezar, es necesario crear los siguientes ficheros:
-
+INIT-----------------------------------------------
 		Procfile (localizado en la raiz del proyecto)
 		con contenido: web: gunicorn tango_with_django_project.wsgi --log-file -
 
@@ -178,7 +181,7 @@ HEROKU
 			psycopg2==2.7.3.1
 			static3==0.7.0
 			gunicorn==19.6.0
-
+-----------------------------------------------------
 		una vez creados esos 3 ficheros. Dentro de la carpeta del proyecto (que hay dentro de la raiz) modificamos wsgi.py añadiendo:
 			from django.core.wsgi import get_wsgi_application
 			from dj_static import Cling
